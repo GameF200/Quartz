@@ -24,7 +24,7 @@ export type Function = {
 Types.string = "string"
 Types.number = "number"
 Types.boolean = "boolean"
-Types.table = "table"
+Types.shape = "shape"
 Types.Function = "function"
 Types.player = "player"
 
@@ -38,14 +38,13 @@ Types.ray = "Ray"
 Types.region3 = "Region3"
 Types.enum = "EnumItem"
 Types.brickcolor = "BrickColor"
-
 Types.instance = "Instance"
 
 Types.validators = {
 	string = function(value) return typeof(value) == "string" end,
 	number = function(value) return typeof(value) == "number" end,
 	boolean = function(value) return typeof(value) == "boolean" end,
-	table = function(value) return typeof(value) == "table" end,
+	shape = function(value) return typeof(value) == "table" end,
 	Function = function(value) return typeof(value) == "function" end,
 		player = function(value) return typeof(value) == "Instance" and value:IsA("Player") end,
 		vector3 = function(value) return typeof(value) == "Vector3" end,
@@ -59,10 +58,37 @@ Types.validators = {
 		enum = function(value) return typeof(value) == "EnumItem" end,
 		brickcolor = function(value) return typeof(value) == "BrickColor" end,
 		instance = function(value) return typeof(value) == "Instance" end
+	
 }
 
 function Types.custom(validatorFn)
 	return {_custom = true, validate = validatorFn}
+end
+
+function Types.shape(shapeDefinition)
+	return {
+		_shape = true,
+		shape = shapeDefinition,
+		validate = function(value)
+			if typeof(value) ~= "table" then
+				return false, "Expected table, got " .. typeof(value)
+			end
+
+			for key, expectedType in pairs(shapeDefinition) do
+				local validator = Types.getValidator(expectedType)
+				if not validator then
+					return false, "Invalid validator for key: " .. tostring(key)
+				end
+				
+				local success, errorMsg = validator(value[key])
+				if not success then
+					return false, string.format("Key '%s': %s", key, errorMsg or "validation failed")
+				end
+			end
+
+			return true
+		end
+	}
 end
 
 function Types.range(min, max)

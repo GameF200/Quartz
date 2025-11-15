@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quartz Documentation</title>
     
-    <!-- Подключаем Highlight.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/lua.min.js"></script>
@@ -401,21 +400,21 @@ PlayerDataEvent.Fire("John", 25, true)</code></pre>
                 <h4>Event Methods</h4>
                 
                 <div class="method">
-                    <div class="method-signature">event:OnFire(callback)</div>
+                    <div class="method-signature">event.OnFire(callback)</div>
                     <div class="method-description">
                         Sets the callback function when the event is fired from the client.
                     </div>
                 </div>
 
                 <div class="method">
-                    <div class="method-signature">event:Fire(player, ...)</div>
+                    <div class="method-signature">event.Fire(player, ...)</div>
                     <div class="method-description">
                         Fires the event to a specific player.
                     </div>
                 </div>
 
                 <div class="method">
-                    <div class="method-signature">event:Expects(...types)</div>
+                    <div class="method-signature">event.Expects(...types)</div>
                     <div class="method-description">
                         Sets validation rules for event parameters.
                     </div>
@@ -461,14 +460,14 @@ PlayerDataEvent.Fire("John", 25, true)</code></pre>
                 <h4>Event Methods</h4>
                 
                 <div class="method">
-                    <div class="method-signature">event:OnFire(callback)</div>
+                    <div class="method-signature">event.OnFire(callback)</div>
                     <div class="method-description">
                         Sets callback for when server fires this event to the client.
                     </div>
                 </div>
 
                 <div class="method">
-                    <div class="method-signature">event:Fire(...)</div>
+                    <div class="method-signature">event.Fire(...)</div>
                     <div class="method-description">
                         Fires the event to the server.
                     </div>
@@ -485,7 +484,7 @@ PlayerDataEvent.Fire("John", 25, true)</code></pre>
                 <h4>Function Methods</h4>
                 
                 <div class="method">
-                    <div class="method-signature">function:Invoke(...)</div>
+                    <div class="method-signature">function.Invoke(...)</div>
                     <div class="method-description">
                         Invokes the function on the server and returns the result.
                     </div>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quartz Documentation</title>
+    
+    <!-- Подключаем Highlight.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/lua.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #34495e;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4em;
+            color: #3498db;
+            margin-bottom: 10px;
+            white-space: pre;
+            line-height: 1.2;
+        }
+
+        .sidebar h1 {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .version {
+            color: #bdc3c7;
+            font-size: 0.9em;
+        }
+
+        .nav-tabs {
+            list-style: none;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+            color: #ecf0f1;
+        }
+
+        .nav-tab:hover {
+            background: #34495e;
+            color: #3498db;
+        }
+
+        .nav-tab.active {
+            background: #34495e;
+            border-left-color: #3498db;
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .nav-subtab {
+            padding: 8px 20px 8px 35px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #bdc3c7;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-subtab:hover {
+            color: #3498db;
+            background: #2c3e50;
+        }
+
+        .nav-subtab.active {
+            color: #3498db;
+            border-left-color: #3498db;
+            background: #34495e;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            margin-bottom: 1em;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            margin-top: 30px;
+            color: #3498db;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            margin-top: 25px;
+            color: #2c3e50;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .hljs {
+            background: #1e1e1e !important;
+            padding: 20px !important;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.4;
+        }
+
+        .api-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .method {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+        }
+
+        .method-signature {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .method-description {
+            margin-bottom: 15px;
+        }
+
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+        }
+
+        .param-table th {
+            background: #34495e;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .param-table td {
+            padding: 10px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .param-table tr:hover {
+            background: #ecf0f1;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            color: #2ecc71;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 0;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #2980b9;
+        }
+
+        .type-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin: 0 2px;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+  ░██████                   
+ ░██   ░██                  
+░██     ░██     
+░██     ░██    
+░██     ░██      
+ ░██   ░██      
+  ░██████          
+       ░██                  
+        ░██                 
+            </div>
+            <h1>Quartz</h1>
+            <div class="version">Version 0.15</div>
+        </div>
+        
+        <ul class="nav-tabs">
+            <li class="nav-tab active" onclick="switchTab('introduction')">Introduction</li>
+            <li class="nav-tab" onclick="switchTab('getting-started')">Getting Started</li>
+            <li class="nav-tab" onclick="switchTab('server-api')">Server API</li>
+            <li class="nav-tab" onclick="switchTab('client-api')">Client API</li>
+            <li class="nav-tab" onclick="switchTab('types')">Type System</li>
+            <li class="nav-tab" onclick="switchTab('examples')">Examples</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <!-- Introduction Tab -->
+        <div id="introduction" class="tab-content active">
+            <h1>Quartz Network Library</h1>
+            <p>Quartz is an open source DX-oriented network library for Roblox that provides type safety, rate limiting, and advanced networking features with a clean, intuitive API.</p>
+            
+            <div class="api-section">
+                <h2>Why Quartz?</h2>
+                <ul class="feature-list">
+                    <li><strong>Type Safety</strong> - Built-in validation for all Roblox data types</li>
+                    <li><strong>Performance</strong> - Optimized for high-frequency networking</li>
+                    <li><strong>Security</strong> - Configurable rate limiting and validation</li>
+                    <li><strong>Developer Experience</strong> - Clean API with comprehensive documentation</li>
+                    <li><strong>Flexibility</strong> - Support for both reliable and unreliable networking</li>
+                </ul>
+            </div>
+
+            <a href="https://create.roblox.com/store/asset/80512696207454/Quartz" class="cta-button" target="_blank">
+                📦 Get Quartz from Creator Store
+            </a>
+        </div>
+
+        <!-- Getting Started Tab -->
+        <div id="getting-started" class="tab-content">
+            <h1>Getting Started</h1>
+            
+            <h2>Installation</h2>
+            <p>Get Quartz from the Roblox Creator Store:</p>
+            <a href="https://create.roblox.com/store/asset/80512696207454/Quartz" class="cta-button" target="_blank">
+                Download from Creator Store
+            </a>
+
+            <h2>Basic Setup</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">-- Server Script
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Quartz = require(ReplicatedStorage.Quartz)
+local Server = Quartz.Server()
+
+-- Client Script (LocalScript)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Quartz = require(ReplicatedStorage.Quartz)
+local Client = Quartz.Client()</code></pre>
+            </div>
+
+            <h2>Quick Example</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">-- Server: Create typed event
+local PlayerDataEvent = Server.Event("PlayerData")
+    .Expects(Quartz.string, Quartz.number, Quartz.boolean)
+
+PlayerDataEvent.OnFire(function(player, name, level, isPremium)
+    print(`Player {name} level: {level} premium: {isPremium}`)
+end)
+
+-- Client: Fire event
+local PlayerDataEvent = Client.Event("PlayerData")
+PlayerDataEvent.Fire("John", 25, true)</code></pre>
+            </div>
+        </div>
+
+        <!-- Server API Tab -->
+        <div id="server-api" class="tab-content">
+            <h1>Server API</h1>
+            
+            <h2>Events</h2>
+            <div class="method">
+                <div class="method-signature">server.Event(name, unreliable, mode, ...validators)</div>
+                <div class="method-description">
+                    Creates a new server event. Returns an event object with methods for handling and firing events.
+                </div>
+                
+                <h4>Event Methods</h4>
+                
+                <div class="method">
+                    <div class="method-signature">event:OnFire(callback)</div>
+                    <div class="method-description">
+                        Sets the callback function when the event is fired from the client.
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-signature">event:Fire(player, ...)</div>
+                    <div class="method-description">
+                        Fires the event to a specific player.
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-signature">event:Expects(...types)</div>
+                    <div class="method-description">
+                        Sets validation rules for event parameters.
+                    </div>
+                </div>
+            </div>
+
+            <h2>Functions</h2>
+            <div class="method">
+                <div class="method-signature">server.Function(name)</div>
+                <div class="method-description">
+                    Creates a new remote function. Returns a function object for handling remote invocations.
+                </div>
+
+                <h4>Function Methods</h4>
+                
+                <div class="method">
+                    <div class="method-signature">function:OnInvoke(callback)</div>
+                    <div class="method-description">
+                        Sets the callback for when the function is invoked from the client.
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-signature">function:Invoke(player, ...)</div>
+                    <div class="method-description">
+                        Invokes the remote function on a specific client.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Client API Tab -->
+        <div id="client-api" class="tab-content">
+            <h1>Client API</h1>
+            
+            <h2>Events</h2>
+            <div class="method">
+                <div class="method-signature">client.Event(name, unreliable, ...validators)</div>
+                <div class="method-description">
+                    Creates or retrieves a client event. Returns an event object for client-server communication.
+                </div>
+
+                <h4>Event Methods</h4>
+                
+                <div class="method">
+                    <div class="method-signature">event:OnFire(callback)</div>
+                    <div class="method-description">
+                        Sets callback for when server fires this event to the client.
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-signature">event:Fire(...)</div>
+                    <div class="method-description">
+                        Fires the event to the server.
+                    </div>
+                </div>
+            </div>
+
+            <h2>Functions</h2>
+            <div class="method">
+                <div class="method-signature">client.Function(name)</div>
+                <div class="method-description">
+                    Creates or retrieves a client function for invoking server methods.
+                </div>
+
+                <h4>Function Methods</h4>
+                
+                <div class="method">
+                    <div class="method-signature">function:Invoke(...)</div>
+                    <div class="method-description">
+                        Invokes the function on the server and returns the result.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Type System Tab -->
+        <div id="types" class="tab-content">
+            <h1>Type System</h1>
+            
+            <h2>Basic Types</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">Quartz.string      -- String validation
+Quartz.number      -- Number validation
+Quartz.boolean     -- Boolean validation
+Quartz.table       -- Table validation
+Quartz.Function    -- Function validation
+Quartz.player      -- Player object validation
+Quartz.vector3     -- Vector3 validation
+Quartz.vector2     -- Vector2 validation
+Quartz.cframe      -- CFrame validation
+Quartz.color3      -- Color3 validation
+Quartz.udim        -- UDim validation
+Quartz.udim2       -- UDim2 validation
+Quartz.ray         -- Ray validation
+Quartz.region3     -- Region3 validation
+Quartz.enum        -- Enum validation
+Quartz.brickcolor  -- BrickColor validation
+Quartz.auto        -- Automatic type inference
+Quartz.instance    -- Instance validation</code></pre>
+            </div>
+
+            <h2>Advanced Validators</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">-- Range validation
+Quartz.range(min, max)  -- Number must be between min and max
+
+-- Value constraints
+Quartz.min(value)       -- Number must be at least value
+Quartz.max(value)       -- Number must be at most value
+
+-- Custom validation
+Quartz.custom(function(value)
+    return type(value) == "string" and #value <= 50
+end)</code></pre>
+            </div>
+        </div>
+
+        <!-- Examples Tab -->
+        <div id="examples" class="tab-content">
+            <h1>Examples</h1>
+            
+            <h2>Basic Chat System</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">-- Server
+local ChatMessage = Server.Event("ChatMessage")
+    .Expects(Quartz.string)
+    .WithRateLimit(20, 10) -- 20 messages per 10 seconds
+
+ChatMessage.OnFire(function(player, message)
+    if #message > 100 then return end
+    
+    -- Broadcast to all players
+    ChatMessage.FireToMultiple(game.Players:GetPlayers(), player.Name, message)
+end)
+
+-- Client
+local ChatMessage = Client.Event("ChatMessage")
+
+-- Send message
+ChatMessage.Fire("Hello world!")
+
+-- Receive messages
+ChatMessage.OnFire(function(playerName, message)
+    print(`{playerName}: {message}`)
+end)</code></pre>
+            </div>
+
+            <h2>Player Data Management</h2>
+            <div class="code-block">
+                <pre><code class="language-lua">-- Server: Data retrieval function
+local GetPlayerData = Server.Function("GetPlayerData")
+    .OnInvoke(function(player, dataKey)
+        return PlayerData[player][dataKey]
+    end)
+
+-- Client: Request data
+local GetPlayerData = Client.Function("GetPlayerData")
+local playerCoins = GetPlayerData.Invoke("coins")</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            // Add active class to clicked tab
+            event.currentTarget.classList.add('active');
+            
+            // Re-highlight code blocks after tab switch
+            setTimeout(() => {
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+            }, 50);
+        }
+
+        // Initialize highlight.js when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
+        });
+    </script>
+</body>
+</html>
